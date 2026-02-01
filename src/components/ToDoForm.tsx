@@ -19,10 +19,26 @@ function ToDoForm() {
     setNewToDo("");
   };
 
-  const toggletodo = (id: number) => {
+  const toggletodo = (id: number): void => {
     setToDos(
       todos.map((todo) => {
-        return todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo;
+        return todo.id === id
+          ? { ...todo, isComplete: !todo.isComplete }
+          : todo;
+      }),
+    );
+  };
+
+  const deletetodo = (id: number): void => {
+    const filtertodo = todos.filter((todo) => todo.id !== id);
+    setToDos(filtertodo);
+  };
+
+  const updatetodo = (id: number, newText: string): void => {
+    if(newText.trim() === "") return;
+    setToDos(
+      todos.map((todo) => {
+        return todo.id === id ? { ...todo, note: newText } : todo;
       }),
     );
   };
@@ -53,7 +69,12 @@ function ToDoForm() {
         </button>
       </form>
 
-      <ToDoList todos={todos} toggletodo={toggletodo} />
+      <ToDoList
+        todos={todos}
+        toggletodo={toggletodo}
+        deletetodo={deletetodo}
+        updatetodo={updatetodo}
+      />
     </div>
   );
 }
